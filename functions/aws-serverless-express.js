@@ -1,8 +1,7 @@
 import express from 'express'
 import awsServerlessExpress from 'aws-serverless-express'
-
-import bodyParser from 'body-parser'
 import cors from 'cors'
+import bodyParser from 'body-parser'
 import compression from 'compression'
 
 const app = express()
@@ -12,22 +11,38 @@ router.use(compression())
 
 router.get('/users', (req, res) => {
   res.json({
-  	hi: 'yo'
+  	users: [{
+  		name: 'steve'
+  	}, {
+  		name: 'joe',
+  	}]
   })
 })
 
 router.get('/', (req, res) => {
 	console.log('home route hit')
-  res.json({
-  	express: 'here'
-  })
+	const html = `
+	<html>
+		<head>
+		</head>
+		<body>
+			<h1>
+				⊂◉‿◉つ I'm using Express in a lambda via 'aws-serverless-express'
+			</h1>
+
+			<a href='/users'>View users route</a>
+		</body>
+	</html>
+	`
+
+  res.send(html)
 })
 
 router.get('/hello/', function(req, res){
   res.send('hello world')
 })
 
-app.use('/.netlify/functions/aws/', router)
+app.use('/.netlify/functions/aws-serverless-express/', router)
 
 router.use(cors())
 router.use(bodyParser.json())
@@ -52,6 +67,9 @@ const binaryMimeTypes = [
   'text/text',
   'text/xml'
 ]
+
 const server = awsServerlessExpress.createServer(app, null, binaryMimeTypes)
 
-exports.handler = (event, context) => awsServerlessExpress.proxy(server, event, context)
+exports.handler = (event, context) => {
+	return awsServerlessExpress.proxy(server, event, context)
+}

@@ -12,15 +12,31 @@ router.use(compression())
 
 router.get('/users', (req, res) => {
   res.json({
-  	hi: 'yo'
+  	users: [{
+  		name: 'steve'
+  	}, {
+  		name: 'joe',
+  	}]
   })
 })
 
 router.get('/', (req, res) => {
 	console.log('home route hit')
-  res.json({
-  	express: 'here'
-  })
+	const html = `
+	<html>
+		<head>
+		</head>
+		<body>
+			<h1>
+				⊂◉‿◉つ I'm using Express in a lambda via 'serverless-http'
+			</h1>
+
+			<a href='/users'>View users</a>
+		</body>
+	</html>
+	`
+
+  res.send(html)
 })
 
 router.get('/hello/', function(req, res){
