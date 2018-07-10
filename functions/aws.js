@@ -16,7 +16,11 @@ router.get('/users', (req, res) => {
   })
 })
 
-app.use('/', router)
+router.get('/hello/', function(req, res){
+  res.send('hello world');
+});
+
+app.use('/.netlify/functions/aws/', router)
 
 router.use(cors())
 router.use(bodyParser.json())
