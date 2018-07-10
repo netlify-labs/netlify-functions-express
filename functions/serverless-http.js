@@ -31,7 +31,7 @@ router.get('/', (req, res) => {
 				⊂◉‿◉つ I'm using Express in a lambda via 'serverless-http'
 			</h1>
 
-			<a href='/users'>View users</a>
+			<a href='/.netlify/functions/serverless-http/users'>View users</a>
 		</body>
 	</html>
 	`
