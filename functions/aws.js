@@ -17,6 +17,7 @@ router.get('/users', (req, res) => {
 })
 
 router.get('/', (req, res) => {
+	console.log('home route hit')
   res.json({
   	express: 'here'
   })
