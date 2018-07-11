@@ -5,15 +5,13 @@ import morgan from 'morgan'
 import bodyParser from 'body-parser'
 import compression from 'compression'
 import customLogger from './utils/logger'
-import expressWinston from 'express-winston'
-import winston from 'winston'
 
 const app = express()
 const router = express.Router()
 
 router.use(compression())
 
-// app.use(morgan(customLogger))
+app.use(morgan(customLogger))
 
 router.get('/users', (req, res) => {
   res.json({
@@ -48,29 +46,11 @@ router.get('/hello/', function(req, res){
   res.send('hello world')
 })
 
-app.use(expressWinston.logger({
-  transports: [
-    new winston.transports.Console({
-      json: true,
-      colorize: true
-    })
-  ]
-}))
-
 app.use('/.netlify/functions/aws-serverless-express/', router)
 
 router.use(cors())
 router.use(bodyParser.json())
 router.use(bodyParser.urlencoded({ extended: true }))
-
-app.use(expressWinston.errorLogger({
-  transports: [
-    new winston.transports.Console({
-      json: true,
-      colorize: true
-    })
-  ]
-}));
 
 const binaryMimeTypes = [
   'application/javascript',
