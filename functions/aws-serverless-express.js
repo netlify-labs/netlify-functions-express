@@ -4,13 +4,14 @@ import cors from 'cors'
 import morgan from 'morgan'
 import bodyParser from 'body-parser'
 import compression from 'compression'
+import customLogger from './utils/logger'
 
 const app = express()
 const router = express.Router()
 
 router.use(compression())
 
-app.use(morgan('dev'))
+app.use(morgan(customLogger))
 
 router.get('/users', (req, res) => {
   res.json({
