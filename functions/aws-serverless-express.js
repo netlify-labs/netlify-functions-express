@@ -4,6 +4,7 @@ import cors from 'cors'
 import morgan from 'morgan'
 import bodyParser from 'body-parser'
 import compression from 'compression'
+import awsServerlessExpressMiddleware from 'aws-serverless-express/middleware'
 import customLogger from './utils/logger'
 
 const app = express()
@@ -24,7 +25,6 @@ router.get('/users', (req, res) => {
 })
 
 router.get('/', (req, res) => {
-	console.log('home route hit')
 	const html = `
 	<html>
 		<head>
@@ -51,6 +51,7 @@ app.use('/.netlify/functions/aws-serverless-express/', router)
 router.use(cors())
 router.use(bodyParser.json())
 router.use(bodyParser.urlencoded({ extended: true }))
+router.use(awsServerlessExpressMiddleware.eventContext())
 
 const binaryMimeTypes = [
   'application/javascript',
