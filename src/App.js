@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import netlifyLogo from './netlify-logo.svg'
+import netlifyLogo from './netlify-logo-black.svg'
 import expressLogo from './express.png'
 import './App.css'
 
