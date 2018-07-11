@@ -1,28 +1,114 @@
 .App {
   text-align: center;
 }
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+.logo-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+.netlify-logo {
+  height: 60px;
+}
+.express-logo {
+  height: 50px;
+  margin-top: 15px;
+}
+.and {
+  font-size: 55px;
+  margin: 0 15px;
+  margin-left: 14px;
 }
 
 .App-header {
-  background-color: #1a94dc;
-  height: 150px;
+  height: 140px;
   padding: 20px;
   color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(230deg,#a24bcf,#4b79cf,#4bc5cf);
+  background-size:300% 300%;
+  animation: MoveBG 30s ease infinite;
 }
 
 .App-title {
-  font-size: 1.5em;
+  font-size: 27px;
+  font-weight: 400;
+  font-style: normal;
 }
 
 .App-intro {
   font-size: large;
 }
+.content {
+  width: 600px;
+  margin: auto;
+}
+.link {
+  position: relative;
+  height: 100%;
+  border: 0px solid rgba(123, 123, 123, 0.498039);
+  border-radius: 4px;
+  color: #999999;
+  line-height: 90px;
+  padding-left: 32px;
+  font-size: 24px;
+  font-weight: 400;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 2px 0px;
+  margin-bottom: 15px;
+  transition: all .6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  display: block;
+  text-decoration: none;
+}
+.link:after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  top: 0;
+  left: 0;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px;
+  transition: all .6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  cursor: pointer;
+}
+.link:hover {
+  transform: scale(1.02, 1.02);
+}
+.link:hover:after {
+  opacity: 1;
+}
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+@keyframes MoveBG {
+  0%{
+    background-position:0% 84%
+  }
+  50% {
+    background-position:100% 16%
+  }
+  100% {
+    background-position:0% 84%
+  }
+}
+
+
+@media (max-width: 768px) {
+  .App-header {
+    height: auto;
+  }
+  .App-title {
+    font-size: 22px;
+  }
+  .logo-wrapper {
+    flex-direction: column;
+    margin-top: 5px;
+  }
+  .and {
+    font-size: 30px;
+  }
 }

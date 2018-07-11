@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import logo from './logo.svg'
+import netlifyLogo from './netlify-logo.svg'
+import expressLogo from './express.png'
 import './App.css'
 
 class App extends Component {
@@ -7,18 +8,26 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Express Demo</h1>
+          <div className="logo-wrapper">
+            <img src={netlifyLogo} className="netlify-logo" alt="logo" />
+            <span className='and'>+</span>
+            <img src={expressLogo} className="express-logo" alt="logo" />
+
+          </div>
+          <h1 className="App-title">How to use express.js with Netlify functions</h1>
         </header>
+
         <p className="App-intro">
-          This is using express!
+          <h2>Choose an example</h2>
         </p>
 
-        <div>
-          <a href="/.netlify/functions/aws-serverless-express">Example using `aws-serverless-express`</a>
-        </div>
-        <div>
-          <a href="/.netlify/functions/serverless-http">Example using `serverless-http`</a>
+        <div className='content'>
+          <a className='link' href="/.netlify/functions/aws-serverless-express">
+            Example using `aws-serverless-express`
+          </a>
+          <a className='link' href="/.netlify/functions/serverless-http">
+            Example using `serverless-http`
+          </a>
         </div>
       </div>
     )
