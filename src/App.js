@@ -13,6 +13,13 @@ class App extends Component {
         <p className="App-intro">
           This is using express!
         </p>
+
+        <div>
+          <a href="/.netlify/functions/aws-serverless-express">Example using `aws-serverless-express`</a>
+        </div>
+        <div>
+          <a href="/.netlify/functions/serverless-http">Example using `serverless-http`</a>
+        </div>
       </div>
     )
   }
