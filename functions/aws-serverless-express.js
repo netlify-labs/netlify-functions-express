@@ -1,80 +1,18 @@
+/* example using https://github.com/awslabs/aws-serverless-express */
 import express from 'express'
 import awsServerlessExpress from 'aws-serverless-express'
-import cors from 'cors'
-import morgan from 'morgan'
-import bodyParser from 'body-parser'
-import compression from 'compression'
-import awsServerlessExpressMiddleware from 'aws-serverless-express/middleware'
-import customLogger from './utils/logger'
+import binaryMimeTypes from './utils/binaryMimeTypes'
+import expressApp from './app'
 
-const app = express()
-const router = express.Router()
+// We need to define our function name for express routes to set the correct base path
+const functionName = 'aws-serverless-express'
+// Initialize express app
+const app = expressApp(functionName)
 
-router.use(compression())
-
-app.use(morgan(customLogger))
-
-router.get('/users', (req, res) => {
-  res.json({
-  	users: [{
-  		name: 'steve'
-  	}, {
-  		name: 'joe',
-  	}]
-  })
-})
-
-router.get('/', (req, res) => {
-	const html = `
-	<html>
-		<head>
-		</head>
-		<body>
-			<h1>
-				⊂◉‿◉つ I'm using Express in a lambda via 'aws-serverless-express'
-			</h1>
-
-			<a href='/.netlify/functions/aws-serverless-express/users'>View users route</a>
-		</body>
-	</html>
-	`
-
-  res.send(html)
-})
-
-router.get('/hello/', function(req, res){
-  res.send('hello world')
-})
-
-app.use('/.netlify/functions/aws-serverless-express/', router)
-
-router.use(cors())
-router.use(bodyParser.json())
-router.use(bodyParser.urlencoded({ extended: true }))
-router.use(awsServerlessExpressMiddleware.eventContext())
-
-const binaryMimeTypes = [
-  'application/javascript',
-  'application/json',
-  'application/octet-stream',
-  'application/xml',
-  'font/eot',
-  'font/opentype',
-  'font/otf',
-  'image/jpeg',
-  'image/png',
-  'image/svg+xml',
-  'text/comma-separated-values',
-  'text/css',
-  'text/html',
-  'text/javascript',
-  'text/plain',
-  'text/text',
-  'text/xml'
-]
-
+// Initialize awsServerlessExpress
 const server = awsServerlessExpress.createServer(app, null, binaryMimeTypes)
 
+// Export Lambda handler
 exports.handler = (event, context) => {
 	return awsServerlessExpress.proxy(server, event, context)
 }
