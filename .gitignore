@@ -9,6 +9,7 @@
 # production
 /build
 /functions-build
+.cache
 
 # netlify
 .netlify
