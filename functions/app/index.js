@@ -20,21 +20,31 @@ export default function expressApp(functionName) {
 
 	/* define routes */
 	router.get('/', (req, res) => {
-		console.log('home route hit')
 		const html = `
 			<html>
 				<head>
 				</head>
 				<body>
-					<h1>
-						⊂◉‿◉つ I'm using Express in a lambda via '${functionName}'
-					</h1>
+					<h1>Express via '${functionName}' ⊂◉‿◉つ</h1>
 
-					<a href='/.netlify/functions/${functionName}/users'>View users</a>
+					<p>I'm using Express running via a Netlify Function. Choose a route:</p>
+
+					<div>
+						<a href='/.netlify/functions/${functionName}/users'>View /users route</a>
+					</div>
+
+					<div>
+						<div>
+							<a href='/.netlify/functions/${functionName}/hello'>View /hello route</a>
+						</div>
+					</div>
+
 					<br/>
-
-					<a href='/'>Back home</a>
-
+					<br/>
+					<br/>
+					<a href='/'>
+						Go back to demo homepage
+					</a>
 				</body>
 			</html>
 		`
