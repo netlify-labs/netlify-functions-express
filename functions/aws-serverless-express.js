@@ -10,7 +10,7 @@ const router = express.Router()
 
 router.use(compression())
 
-app.use(morgan('combined'))
+app.use(morgan('dev'))
 
 router.get('/users', (req, res) => {
   res.json({
