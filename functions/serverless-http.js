@@ -1,14 +1,16 @@
 import serverless from 'serverless-http'
 import express from 'express'
-
-import bodyParser from 'body-parser'
 import cors from 'cors'
+import morgan from 'morgan'
+import bodyParser from 'body-parser'
 import compression from 'compression'
 
 const app = express()
 const router = express.Router()
 
 router.use(compression())
+
+app.use(morgan('combined'))
 
 router.get('/users', (req, res) => {
   res.json({
