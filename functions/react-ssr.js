@@ -9,6 +9,7 @@ import Data from "./react-app/usersData"
 import fs from "fs"
 import path from "path"
 
+const functionName = 'react-ssr'
 const app = express()
 
 app.use(cors())
