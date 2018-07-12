@@ -1,3 +1,4 @@
+import React from "react"
 import { renderToString } from "react-dom/server"
 import App from "./react-app/App"
 import fetchData from "./react-app/usersData"
