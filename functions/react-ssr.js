@@ -17,29 +17,32 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 // app.use(express.static(path.resolve(__dirname, "./Browser")))
 
-
-const markup = `<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>SSR- React</title>
-<link rel="stylesheet" href="/dev/bundle.css">
-</head>
-<body>
-<div id="root"><!--App--></div>
-
-<script src="/dev/bundle.js"></script>
-</body>
-</html>`
-
+const Html = ({ body, styles, title }) => {
+  const stylesheet = (styles) ? `<style>${styles}</style>` : ''
+  return `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>${title}</title>
+        ${stylesheet}
+      </head>
+      <body style="margin:0">
+        <div id="root">${body}</div>
+        <script src="/dev/bundle.js"></script>
+      </body>
+    </html>
+  `
+}
 const routerBasePath = (process.env.NODE_ENV === 'dev') ? `/${functionName}` : `/.netlify/functions/${functionName}/`
 
 app.get(routerBasePath, (req, res) => {
   Data().then(users => {
-    const html = renderToString(<App data={users} />)
-    res.send(markup.replace("<!--App-->", html))
+    const reactAppHtml = renderToString(<App data={users} />)
+    const html = Html({
+      title: 'React SSR!',
+      body: reactAppHtml
+    })
+    res.send(html)
   })
 })
 
