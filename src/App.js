@@ -29,7 +29,10 @@ class App extends Component {
             Example using `serverless-http` module
           </a>
           <a className='link' href="/.netlify/functions/react-express-ssr">
-            Example using react serverside rendering
+            Example using React serverside rendering
+          </a>
+          <a className='link' href="/.netlify/functions/vue-ssr">
+            Example using Vue serverside rendering
           </a>
         </div>
       </div>
