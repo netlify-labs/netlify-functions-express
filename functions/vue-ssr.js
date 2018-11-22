@@ -1,5 +1,6 @@
 // Step 1: Create a Vue instance
-const Vue = require('vue')
+import Vue from 'vue'
+
 const app = new Vue({
   template: `<div>Hello World</div>`
 })
