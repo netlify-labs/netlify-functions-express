@@ -2,6 +2,8 @@
 import Vue from 'vue'
 import serverRenderer from 'vue-server-renderer'
 
+console.log(serverRenderer.default)
+
 const app = new Vue({
   template: `<div>Hello World</div>`
 })
