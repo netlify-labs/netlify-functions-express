@@ -1,4 +1,4 @@
-// Step 1: Create a Vue instance
+// Step 1: Create a Vue instance!
 import Vue from 'vue'
 import serverRenderer from 'vue-server-renderer'
 
