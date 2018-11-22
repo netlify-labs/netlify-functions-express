@@ -1,5 +1,6 @@
 // Step 1: Create a Vue instance
 import Vue from 'vue'
+import serverRenderer from 'vue-server-renderer'
 
 const app = new Vue({
   template: `<div>Hello World</div>`
@@ -15,7 +16,7 @@ const template = `<html>
 </html>`
 
 // Step 2: Create a renderer
-const renderer = require('vue-server-renderer').createRenderer({
+const renderer = serverRenderer.createRenderer({
   // template: require('fs').readFileSync('./index.template.html', 'utf-8')
   template: template
 })
