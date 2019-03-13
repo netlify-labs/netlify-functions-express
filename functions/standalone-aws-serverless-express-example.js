@@ -21,31 +21,33 @@ app.use(morgan(customLogger))
 
 router.get('/users', (req, res) => {
   res.json({
-  	users: [{
-  		name: 'steve'
-  	}, {
-  		name: 'joe',
-  	}]
+    users: [
+      {
+        name: 'steve',
+      },
+      {
+        name: 'joe',
+      },
+    ],
   })
 })
 
 router.get('/', (req, res) => {
-	const html = `
-		<html>
-			<head>
-			</head>
-			<body>
-				<h1>
-					⊂◉‿◉つ I'm using Express in a lambda via '${functionName}'
-				</h1>
+  const html = `
+    <html>
+      <head></head>
+      <body>
+        <h1>
+          ⊂◉‿◉つ I'm using Express in a lambda via '${functionName}'
+        </h1>
 
-				<a href='/.netlify/functions/${functionName}/users'>
-					View users route
-				</a>
-			</body>
-		</html>
-	`
-	// send back HTML
+        <a href='/.netlify/functions/${functionName}/users'>
+          View users route
+        </a>
+      </body>
+    </html>
+  `
+  // send back HTML
   res.send(html)
 })
 
@@ -62,5 +64,5 @@ const server = awsServerlessExpress.createServer(app, null, binaryMimeTypes)
 
 // Export lambda handler
 exports.handler = (event, context) => {
-	return awsServerlessExpress.proxy(server, event, context)
+  return awsServerlessExpress.proxy(server, event, context)
 }
