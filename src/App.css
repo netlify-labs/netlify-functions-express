@@ -1,6 +1,25 @@
 .App {
   text-align: center;
 }
+
+.github-corner {
+
+}
+.github-corner svg {
+  height: 80px;
+  width: 80px;
+  fill: #151513;
+  color: #fff;
+  position: absolute;
+  top: 0;
+  border: 0;
+  right: 0;
+  z-index: 99;
+}
+.github-corner:hover .octo-arm {
+  animation: octocat-wave 560ms ease-in-out;
+}
+
 .logo-wrapper {
   display: flex;
   align-items: center;
@@ -112,8 +131,21 @@
   }
 }
 
+@keyframes octocat-wave {
+  0%, 100%{
+    transform: rotate(0)
+  }
+  20%, 60%{
+    transform: rotate(-25deg)
+  }
+  40%, 80%{
+    transform: rotate(10deg)
+  }
+}
+
 
 @media (max-width: 768px) {
+
   .App-header {
     height: auto;
   }
@@ -126,5 +158,18 @@
   }
   .and {
     font-size: 30px;
+  }
+  .github-corner svg {
+    height: 60px;
+    width: 60px;
+  }
+}
+
+@media (max-width:500px) {
+  .github-corner:hover .octo-arm {
+    animation:none
+  }
+  .github-corner .octo-arm {
+    animation:octocat-wave 560ms ease-in-out
   }
 }
