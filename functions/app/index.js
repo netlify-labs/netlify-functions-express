@@ -15,7 +15,7 @@ export default function expressApp(functionName) {
   router.use(compression())
 
   // Set router base path for local dev
-  const routerBasePath = process.env.NODE_ENV === 'dev' ? `/${functionName}` : `/.netlify/functions/${functionName}/`
+  const routerBasePath = `/${functionName}`
 
   /* define routes */
   router.get('/', (req, res) => {
@@ -36,11 +36,11 @@ export default function expressApp(functionName) {
         <p>Choose a route:</p>
 
         <div>
-          <a href='/.netlify/functions/${functionName}/users'>View /users route</a>
+          <a href='/${functionName}/users'>View /users route</a>
         </div>
 
         <div>
-          <a href='/.netlify/functions/${functionName}/hello'>View /hello route</a>
+          <a href='/${functionName}/hello'>View /hello route</a>
         </div>
 
         <br/>

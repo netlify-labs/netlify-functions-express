@@ -1,1 +1,3 @@
+/aws-serverless-express/* /.netlify/functions/aws-serverless-express/:splat 200!
+/serverless-http/* /.netlify/functions/serverless-http/:splat 200!
 /react-express-ssr/* /.netlify/functions/react-express-ssr/:splat 200!

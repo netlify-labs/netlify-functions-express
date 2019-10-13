@@ -36,13 +36,13 @@ class App extends Component {
         </p>
 
         <div className='content'>
-          <a className='link' href="/.netlify/functions/aws-serverless-express">
+          <a className='link' href="/aws-serverless-express">
             Example using `aws-serverless-express` module
           </a>
-          <a className='link' href="/.netlify/functions/serverless-http">
+          <a className='link' href="/serverless-http">
             Example using `serverless-http` module
           </a>
-          <a className='link' href="/.netlify/functions/react-express-ssr">
+          <a className='link' href="/react-express-ssr">
             Example using React serverside rendering
           </a>
         </div>
