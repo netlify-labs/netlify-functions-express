@@ -33,7 +33,7 @@ const Html = ({ body, styles, title }) => {
     </html>
   `
 }
-const routerBasePath = (process.env.NODE_ENV === 'dev') ? `/${functionName}` : `/.netlify/functions/${functionName}/`
+const routerBasePath = `/${functionName}`
 
 app.get(routerBasePath, (req, res) => {
   Data().then(users => {
