@@ -2,53 +2,101 @@ import React, { Component } from 'react'
 import netlifyLogo from './netlify-logo-black.svg'
 import expressLogo from './express.png'
 import './App.css'
+/*
+ * Starter Project for WhatsApp Echo Bot Tutorial
+ *
+ * Remix this as the starting point for following the WhatsApp Echo Bot tutorial
+ *
+ */
 
-const GitHubCorner = ({ url }) => {
-  return (
-    <a href={url} className='github-corner' aria-label='View source on GitHub'>
-      <svg viewBox='0 0 250 250' aria-hidden='true'>
-        <path d='M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z' />
-        <path d='M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2' fill='currentColor' style={{transformOrigin: '130px 106px'}} className='octo-arm' />
-        <path d='M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z' fill='currentColor' className='octo-body' />
-      </svg>
-    </a>
-  )
-}
+"use strict";
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <GitHubCorner url={'https://github.com/netlify-labs/netlify-functions-express'} />
-        <header className="App-header">
+// Access token for your app
+// (copy token from DevX getting started page
+// and save it as environment variable into the .env file)
+const token = process.env.WHATSAPP_TOKEN;
 
-          <div className="logo-wrapper">
-            <img src={netlifyLogo} className="netlify-logo" alt="logo" />
-            <span className='and'>+</span>
-            <img src={expressLogo} className="express-logo" alt="logo" />
+// Imports dependencies and set up http server
+const request = require("request"),
+  express = require("express"),
+  body_parser = require("body-parser"),
+  axios = require("axios").default,
+  app = express().use(body_parser.json()); // creates express http server
 
-          </div>
-          <h1 className="App-title">How to use express.js with Netlify functions</h1>
-        </header>
+// Sets server port and logs message on success
+app.listen(process.env.PORT || 1337, () => console.log("webhook is listening"));
 
-        <p className="App-intro">
-          <h2>Choose an example</h2>
-        </p>
+// Accepts POST requests at /webhook endpoint
+app.post("/webhook", (req, res) => {
+  // Parse the request body from the POST
+  let body = req.body;
 
-        <div className='content'>
-          <a className='link' href="/.netlify/functions/aws-serverless-express">
-            Example using `aws-serverless-express` module
-          </a>
-          <a className='link' href="/.netlify/functions/serverless-http">
-            Example using `serverless-http` module
-          </a>
-          <a className='link' href="/.netlify/functions/react-express-ssr">
-            Example using React serverside rendering
-          </a>
-        </div>
-      </div>
-    )
+  // Check the Incoming webhook message
+  console.log(JSON.stringify(req.body, null, 2));
+
+  // info on WhatsApp text message payload: https://developers.facebook.com/docs/whatsapp/cloud-api/webhooks/payload-examples#text-messages
+  if (req.body.object) {
+    if (
+      req.body.entry &&
+      req.body.entry[0].changes &&
+      req.body.entry[0].changes[0] &&
+      req.body.entry[0].changes[0].value.messages &&
+      req.body.entry[0].changes[0].value.messages[0]
+    ) {
+      let phone_number_id =
+        req.body.entry[0].changes[0].value.metadata.phone_number_id;
+      let from = req.body.entry[0].changes[0].value.messages[0].from; // extract the phone number from the webhook payload
+      let msg_body = req.body.entry[0].changes[0].value.messages[0].text.body; // extract the message text from the webhook payload
+      axios({
+        method: "POST", // Required, HTTP method, a string, e.g. POST, GET
+        url:
+          "https://graph.facebook.com/v12.0/" +
+          phone_number_id +
+          "/messages?access_token=" +
+          token,
+        data: {
+          messaging_product: "whatsapp",
+          to: from,
+          //text: { body: "Ack: " + msg_body },
+          text: { body: "Hello Cheetos"},
+        },
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+    res.sendStatus(200);
+  } else {
+    // Return a '404 Not Found' if event is not from a WhatsApp API
+    res.sendStatus(404);
   }
-}
+});
+
+// Accepts GET requests at the /webhook endpoint. You need this URL to setup webhook initially.
+// info on verification request payload: https://developers.facebook.com/docs/graph-api/webhooks/getting-started#verification-requests 
+app.get("/webhook", (req, res) => {
+  /**
+   * UPDATE YOUR VERIFY TOKEN
+   *This will be the Verify Token value when you set up webhook
+  **/
+  const verify_token = process.env.VERIFY_TOKEN;
+
+  // Parse params from the webhook verification request
+  let mode = req.query["hub.mode"];
+  let token = req.query["hub.verify_token"];
+  let challenge = req.query["hub.challenge"];
+
+  // Check if a token and mode were sent
+  if (mode && token) {
+    // Check the mode and token sent are correct
+    if (mode === "subscribe" && token === verify_token) {
+      // Respond with 200 OK and challenge token from the request
+      console.log("WEBHOOK_VERIFIED");
+      res.status(200).send(challenge);
+    } else {
+      // Responds with '403 Forbidden' if verify tokens do not match
+      res.sendStatus(403);
+    }
+  }
+});
+
 
 export default App
